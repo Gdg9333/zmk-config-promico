@@ -1,7 +1,6 @@
 // promicro_left.overlay
 
 #include "promicro.dtsi"
-#include <dt-bindings/led/led.h>
 
 &left_encoder {
 	status = "okay";
