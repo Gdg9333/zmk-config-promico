@@ -7,6 +7,7 @@
 #include <behaviors/mouse_keys.dtsi>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/mouse.h>
 
@@ -16,12 +17,12 @@
 
         default_layer {
             bindings = <
-&kp ESC    &kp N1  &kp N2  &kp N3     &kp N4          &kp N5                          &kp N6   &kp N7    &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp TAB    &kp Q   &kp W   &kp E      &kp R           &kp T                           &kp Y    &kp U     &kp I      &kp O    &kp P     &kp MINUS
-&mo 3      &kp A   &kp S   &kp D      &kp F           &kp G                &mkp LCLK  &kp H    &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
-&kp GRAVE  &kp Z   &kp X   &kp C      &kp V           &kp B     &mkp RCLK             &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
-                           &kp LSHFT  &kp SPACE       &kp BSPC                        &kp DEL  &kp RET   &kp RGUI
-                           &kp LCTRL  &kp SCROLLLOCK  &tog 2                          &mo 1    &kp RALT
+&kp ESC            &kp N1  &kp N2  &kp N3     &kp N4     &kp N5                          &kp N6   &kp N7   &kp N8     &kp N9   &kp N0    &kp EQUAL
+&kp LEFT_ALT       &kp Q   &kp W   &kp E      &kp R      &kp T                           &kp Y    &kp U    &kp I      &kp O    &kp P     &kp MINUS
+&kp RGUI           &kp A   &kp S   &kp D      &kp F      &kp G                &mkp LCLK  &kp H    &kp J    &kp K      &kp L    &kp SEMI  &kp SQT
+&ext_power EP_TOG  &kp Z   &kp X   &kp C      &kp V      &kp B     &mkp RCLK             &kp N    &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
+                                   &kp LSHFT  &kp SPACE  &kp BSPC                        &kp DEL  &kp RET  &kp TAB
+                                   &kp LCTRL  &mo 3      &mo 2                           &tog 2   &mo 1
             >;
 
             sensor-bindings =
@@ -29,14 +30,14 @@
                 <&inc_dec_kp UP_ARROW DOWN_ARROW>;
         };
 
-        Bluetooth {
+        Blue-Key {
             bindings = <
-&kp ESC  &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2      &bt BT_SEL 3   &bt BT_SEL 4                         &kp KP_EQUAL  &kp N7         &kp N8    &kp N9        &kp PLUS    &kp MINUS
-&kp TAB  &bt BT_DISC 0  &bt BT_DISC 1   &bt BT_DISC 2     &bt BT_DISC 3  &bt BT_DISC 4                        &trans        &kp N4         &kp N5    &kp N6        &kp STAR    &kp FSLH
-&trans   &bt BT_CLR     &bt BT_CLR_ALL  &bt BT_NXT        &bt BT_PRV     &trans                    &mkp LCLK  &trans        &kp N1         &kp N2    &kp N3        &kp DOLLAR  &kp PERCENT
-&trans   &trans         &trans          &trans            &trans         &trans         &mkp LCLK             &trans        &kp N0         &kp DOT   &kp KP_COMMA  &kp ENTER   &kp TAB
-                                        &kp LSHFT         &kp SPACE      &kp BACKSPACE                        &kp DELETE    &kp ENTER      &kp RGUI
-                                        &kp LEFT_CONTROL  &kp LEFT_ALT   &tog 0                               &tog 0        &kp RIGHT_ALT
+&none  &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                 &none  &none  &none  &none  &none  &none
+&none  &bt BT_DISC 0  &bt BT_DISC 1   &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4                &none  &none  &none  &none  &none  &none
+&none  &bt BT_CLR     &bt BT_CLR_ALL  &bt BT_NXT     &bt BT_PRV     &none                 &none  &none  &none  &none  &none  &none  &none
+&none  &none          &none           &none          &none          &none          &none         &none  &none  &none  &none  &none  &none
+                                      &none          &none          &none                        &none  &none  &none
+                                      &none          &none          &none                        &none  &none
             >;
 
             sensor-bindings =
@@ -44,14 +45,14 @@
                 <&inc_dec_kp DOWN_ARROW UP_ARROW>;
         };
 
-        Numpad {
+        Sym-Num-Pad {
             bindings = <
-&none  &none  &none  &none      &none      &none                           &kp LEFT_PARENTHESIS   &kp N7        &kp N8    &kp N9     &kp PLUS    &kp MINUS
-&none  &none  &none  &none      &none      &none                           &kp RIGHT_PARENTHESIS  &kp N4        &kp N5    &kp N6     &kp STAR    &kp FSLH
-&none  &none  &none  &none      &none      &none                &mkp LCLK  &kp LEFT_BRACKET       &kp N1        &kp N2    &kp N3     &kp DOLLAR  &kp PERCENT
-&none  &none  &none  &none      &none      &none     &mkp RCLK             &kp RIGHT_BRACKET      &kp N0        &kp DOT   &kp COMMA  &kp RET     &kp TAB
-                     &kp LSHFT  &kp SPACE  &kp BSPC                        &kp DEL                &kp RET       &kp LGUI
-                     &none      &none      &to 0                           &kp LEFT_CONTROL       &kp LEFT_ALT
+&kp LEFT_BRACE   &kp RIGHT_BRACE   &kp LEFT_BRACKET   &kp RIGHT_BRACKET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS                        &kp DOLLAR   &kp N7      &kp N8   &kp N9     &kp EQUAL      &kp CARET
+&kp EXCLAMATION  &kp QUESTION      &kp AMPERSAND      &kp HOME           &kp UP_ARROW          &kp PAGE_UP                                  &kp PERCENT  &kp N4      &kp N5   &kp N6     &kp PLUS       &kp MINUS
+&kp GRAVE        &kp SINGLE_QUOTE  &kp DOUBLE_QUOTES  &kp LEFT_ARROW     &kp DOWN_ARROW        &kp RIGHT_ARROW                   &mkp LCLK  &kp HASH     &kp N1      &kp N2   &kp N3     &kp STAR       &kp FSLH
+&kp SEMICOLON    &kp BACKSLASH     &kp AT             &kp END            &kp INSERT            &kp PAGE_DOWN          &mkp RCLK             &kp TILDE    &kp N0      &kp DOT  &kp COMMA  &kp LESS_THAN  &kp GREATER_THAN
+                                                      &kp LSHFT          &kp SPACE             &kp BSPC                                     &kp DEL      &kp RET     &kp TAB
+                                                      &kp LEFT_CONTROL   &mo 3                 &to 0                                        &kp RGUI     &kp ESCAPE
             >;
 
             sensor-bindings =
@@ -59,14 +60,14 @@
                 <&inc_dec_kp UP_ARROW DOWN_ARROW>;
         };
 
-        Scroll {
+        Scroll-Function {
             bindings = <
-&kp ESC    &kp N1  &kp N2  &kp N3     &kp N4     &kp N5                          &kp N6   &kp N7    &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp TAB    &kp Q   &kp W   &kp E      &kp R      &kp T                           &kp Y    &kp U     &kp I      &kp O    &kp P     &kp MINUS
-&kp LSHFT  &kp A   &kp S   &kp D      &kp F      &kp G                &mkp LCLK  &kp H    &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
-&kp GRAVE  &kp Z   &kp X   &kp C      &kp V      &kp B     &mkp RCLK             &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
-                           &kp LSHFT  &kp SPACE  &kp BSPC                        &kp DEL  &kp RET   &kp RGUI
-                           &kp LCTRL  &tog 0     &tog 2                          &mo 1    &kp RALT
+&kp F1             &kp F2                    &kp F3                      &kp F4               &kp F5                  &kp F6                                     &kp F7            &kp F8             &kp F9           &kp F10             &kp F11               &kp F12
+&kp C_AL_CONTACTS  &kp C_AL_CALENDAR         &kp C_AL_INSTANT_MESSAGING  &kp C_AL_EMAIL       &kp C_AL_IMAGE_BROWSER  &kp C_AL_CALCULATOR                        &kp C_REWIND      &kp C_PREVIOUS     &kp C_NEXT       &kp C_FAST_FORWARD  &kp C_BRIGHTNESS_DEC  &kp C_BRIGHTNESS_INC
+&kp C_AC_PRINT     &kp C_AL_TASK_MANAGER     &kp C_AL_MY_COMPUTER        &kp C_AL_WWW         &kp C_AL_FILE_BROWSER   &kp C_AL_DOCUMENTS              &mkp LCLK  &kp C_PLAY_PAUSE  &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE          &kp PRINTSCREEN       &kp PAUSE_BREAK
+&kp C_AC_CLOSE     &kp C_AL_GRAPHICS_EDITOR  &kp C_AL_TEXT_EDITOR        &kp C_AL_SPELLCHECK  &kp C_AL_SPREADSHEET    &kp C_AL_WORD        &mkp RCLK             &kp C_POWER       &kp C_SLEEP        &kp C_AL_LOGOFF  &kp C_AL_LOCK       &kp C_AC_PROPERTIES   &kp C_AC_REFRESH
+                                                                         &none                &none                   &none                                      &kp C_AC_SAVE     &kp C_AC_NEW       &kp C_AC_OPEN
+                                                                         &none                &none                   &none                                      &kp C_AC_BACK     &kp C_AC_FORWARD
             >;
 
             sensor-bindings =
