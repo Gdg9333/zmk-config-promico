@@ -7,7 +7,6 @@
 #include <behaviors/mouse_keys.dtsi>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/mouse.h>
 
@@ -17,12 +16,12 @@
 
         default_layer {
             bindings = <
-&kp ESC            &kp N1  &kp N2  &kp N3     &kp N4     &kp N5                          &kp N6   &kp N7   &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp LEFT_ALT       &kp Q   &kp W   &kp E      &kp R      &kp T                           &kp Y    &kp U    &kp I      &kp O    &kp P     &kp MINUS
-&kp RGUI           &kp A   &kp S   &kp D      &kp F      &kp G                &mkp LCLK  &kp H    &kp J    &kp K      &kp L    &kp SEMI  &kp SQT
-&ext_power EP_TOG  &kp Z   &kp X   &kp C      &kp V      &kp B     &mkp RCLK             &kp N    &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
-                                   &kp LSHFT  &kp SPACE  &kp BSPC                        &kp DEL  &kp RET  &kp TAB
-                                   &kp LCTRL  &mo 3      &mo 2                           &tog 2   &mo 1
+&kp ESC       &kp N1  &kp N2  &kp N3     &kp N4     &kp N5                          &kp N6   &kp N7   &kp N8     &kp N9   &kp N0    &kp EQUAL
+&kp LEFT_ALT  &kp Q   &kp W   &kp E      &kp R      &kp T                           &kp Y    &kp U    &kp I      &kp O    &kp P     &kp MINUS
+&kp RGUI      &kp A   &kp S   &kp D      &kp F      &kp G                &mkp LCLK  &kp H    &kp J    &kp K      &kp L    &kp SEMI  &kp SQT
+&none         &kp Z   &kp X   &kp C      &kp V      &kp B     &mkp RCLK             &kp N    &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
+                              &kp LSHFT  &kp SPACE  &kp BSPC                        &kp DEL  &kp RET  &kp TAB
+                              &kp LCTRL  &mo 3      &mo 2                           &tog 2   &mo 1
             >;
 
             sensor-bindings =
