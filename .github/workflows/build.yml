@@ -39,7 +39,7 @@ jobs:
           west build -s zmk/app -b promicro -- -DSHIELD=settings_reset
 
       - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: build/zephyr/*.uf2
