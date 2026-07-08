@@ -1,5 +1,45 @@
-on: [push, pull_request, workflow_dispatch]
+name: Build ZMK Firmware
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install west + dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip python3-setuptools ninja-build
+          pip3 install --user west
+
+      - name: Initialize west workspace
+        run: |
+          west init -l .
+          west update
+
+      - name: Build (left)
+        run: |
+          west build -s zmk/app -b promicro -- -DSHIELD=promicro_left
+
+      - name: Build (right)
+        run: |
+          west build -s zmk/app -b promicro -- -DSHIELD=promicro_right
+
+      - name: Build (settings reset)
+        run: |
+          west build -s zmk/app -b promicro -- -DSHIELD=settings_reset
+
+      - name: Upload firmware artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware
+          path: build/zephyr/*.uf2
