@@ -13,28 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install west + dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y \
-            python3-pip \
-            python3-setuptools \
-            ninja-build \
-            cmake \
-            dfu-util \
-            device-tree-compiler
-          pip3 install --user west
+      - name: Setup ZMK environment
+        uses: zmkfirmware/setup-zephyr-sdk@main
 
       - name: Initialize west workspace
         run: |
           west init -l config
           west update
           west zephyr-export
-          
-      - name: Install Zephyr SDK
-        run: |
-          west sdk install
-          
+
       - name: Build left
         run: |
           west build \
@@ -65,7 +52,7 @@ jobs:
             -DSHIELD=settings_reset \
             -DZMK_CONFIG=$PWD/config
 
-      - name: Upload firmware artifacts
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware
