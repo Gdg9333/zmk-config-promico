@@ -16,29 +16,48 @@ jobs:
       - name: Install west + dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip python3-setuptools ninja-build
+          sudo apt install -y \
+            python3-pip \
+            python3-setuptools \
+            ninja-build \
+            cmake \
+            dfu-util \
+            device-tree-compiler
           pip3 install --user west
 
       - name: Initialize west workspace
         run: |
           west init -l config
           west update
+          west zephyr-export
 
       - name: Build left
         run: |
-          west build -d build/left -s zmk/app -b nice_nano_v2 -- \
+          west build \
+            -d build/left \
+            -s zmk/app \
+            -b nice_nano_v2 \
+            -- \
             -DSHIELD=promicro_left \
             -DZMK_CONFIG=$PWD/config
 
       - name: Build right
         run: |
-          west build -d build/right -s zmk/app -b nice_nano_v2 -- \
+          west build \
+            -d build/right \
+            -s zmk/app \
+            -b nice_nano_v2 \
+            -- \
             -DSHIELD=promicro_right \
             -DZMK_CONFIG=$PWD/config
 
       - name: Build settings reset
         run: |
-          west build -d build/reset -s zmk/app -b nice_nano_v2 -- \
+          west build \
+            -d build/reset \
+            -s zmk/app \
+            -b nice_nano_v2 \
+            -- \
             -DSHIELD=settings_reset \
             -DZMK_CONFIG=$PWD/config
 
