@@ -11,9 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.0
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
 
       - name: Install west + dependencies
         run: |
@@ -23,23 +21,32 @@ jobs:
 
       - name: Initialize west workspace
         run: |
-          west init -l .
+          west init -l config
           west update
 
-      - name: Build (left)
+      - name: Build left
         run: |
-          west build -s zmk/app -b promicro -- -DSHIELD=promicro_left
+          west build -d build/left -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=promicro_left \
+            -DZMK_CONFIG=$PWD/config
 
-      - name: Build (right)
+      - name: Build right
         run: |
-          west build -s zmk/app -b promicro -- -DSHIELD=promicro_right
+          west build -d build/right -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=promicro_right \
+            -DZMK_CONFIG=$PWD/config
 
-      - name: Build (settings reset)
+      - name: Build settings reset
         run: |
-          west build -s zmk/app -b promicro -- -DSHIELD=settings_reset
+          west build -d build/reset -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=settings_reset \
+            -DZMK_CONFIG=$PWD/config
 
       - name: Upload firmware artifacts
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: build/zephyr/*.uf2
+          path: |
+            build/left/zephyr/*.uf2
+            build/right/zephyr/*.uf2
+            build/reset/zephyr/*.uf2
