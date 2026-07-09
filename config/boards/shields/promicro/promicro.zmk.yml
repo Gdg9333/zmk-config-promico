@@ -1,10 +1,10 @@
 file_format: "1"
 id: promicro
-Name: promicro
+name: promicro
 type: shield
 url: https://github.com/wainingforests/zmk-config-promico/
 requires:
-  - nice_nano_v2
+  - nice_nano
 exposes: 
   - i2c_oled
 features:
