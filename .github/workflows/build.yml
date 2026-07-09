@@ -30,7 +30,11 @@ jobs:
           west init -l config
           west update
           west zephyr-export
-
+          
+      - name: Install Zephyr SDK
+        run: |
+          west sdk install
+          
       - name: Build left
         run: |
           west build \
