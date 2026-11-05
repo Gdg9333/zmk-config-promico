@@ -100,7 +100,7 @@ nice_view_spi: &spi0 {
     manual_layers {
       // Bluetooth, symbols/scroll, and function/snipe must keep their own behavior.
       layers = <2 3 4>;
-      input-processors = <>;
+      // No processors and no process-next: keep HID events, skip base processors.
     };
   };
 };

@@ -45,7 +45,11 @@ class AutomaticMouseAcceptance(unittest.TestCase):
         self.assertRegex(overlay, r'input-processors\s*=\s*<&zip_temp_layer\s+1\s+750>')
         self.assertRegex(overlay, r'scroll-layers\s*=\s*<3>')
         self.assertRegex(overlay, r'snipe-layers\s*=\s*<4>')
-        self.assertRegex(overlay, r'layers\s*=\s*<2 3 4>;\s*input-processors\s*=\s*<>;')
+        manual = re.search(r'manual_layers\s*\{(.*?)\};', overlay, re.S).group(1)
+        manual = re.sub(r'//[^\n]*', '', manual)
+        self.assertRegex(manual, r'layers\s*=\s*<2 3 4>;')
+        self.assertNotIn('input-processors', manual)
+        self.assertNotIn('process-next', manual)
         # Highest-active-layer mode selection must be identical with auto on/off,
         # including simultaneous scroll+snipe and toggled symbol layer combinations.
         for mask in range(1 << 3):
