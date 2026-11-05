@@ -73,18 +73,6 @@
                 <&inc_dec_kp LEFT_ARROW RIGHT_ARROW>,
                 <&inc_dec_kp K_SCROLL_UP K_SCROLL_DOWN>;
         };
-
-        // PMW3610 automouse-layer = <4>; inherit every existing key and encoder binding.
-        automatic_mouse {
-            bindings = <
-&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
-&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
-&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                            &trans &trans &trans    &trans &trans &trans
-                            &trans &trans &trans    &trans &trans
-            >;
-        };
     };
 
     conditional_layers { compatible = "zmk,conditional-layers"; };
