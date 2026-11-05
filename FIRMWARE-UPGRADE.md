@@ -24,26 +24,64 @@ The original mouse key headers remain supported by v0.3.0.
 
 ## Preserved configuration
 
-The complete keymap, Bluetooth profile bindings, editor layout, matrix transform,
-GPIO wiring, encoders, display definitions, build matrix, and central/peripheral
-roles are byte-identical to the baseline. Right remains central with the sensor.
-Sleep and idle configuration is unchanged, including the commented settings.
-Both halves still include the `nice_view` shield. These are Nice!View SPI display
-settings, not SSD1306 OLED settings; no display hardware migration is assumed.
+The original four layers retain their physical key and encoder functions. A new,
+fully transparent automatic mouse layer is inserted at index 1, below every
+manual layer. Existing layer targets and the sensor's mode layer indices are
+shifted together; Bluetooth profile numbers are NOT changed:
 
-## Existing automatic mouse layer limitation
+| Layer | Before | After |
+| --- | --- | --- |
+| Base | 0 | 0 |
+| Automatic mouse | undefined 4 | 1 |
+| Blue-Key | 1 | 2 |
+| Sym-Num-Pad / trackball scrolling | 2 | 3 |
+| Scroll-Function / trackball snipe | 3 | 4 |
 
-The backup specifies `automouse-layer = <4>` but defines only layers 0 through 3.
-Consequently its automatic mouse layer has no valid keymap target. This upgrade
-preserves that configuration rather than inventing new mappings.
+All Bluetooth, sleep/idle, GPIO wiring, matrix transform, encoder hardware,
+display and sensor tuning settings remain unchanged. Right remains central.
+Both halves still include the `nice_view` shield (Nice!View SPI displays, not
+SSD1306 OLED displays). The editor JSON describes physical hardware/layout and
+is unchanged. Numeric manual layer indices and displayed layer numbers change;
+physical key functions and Bluetooth profile indices do not.
 
-Simply adding a transparent layer 4 is insufficient: this driver's mode selection
-uses only `zmk_keymap_highest_layer_active()`. A new layer 4 can mask the existing
-scroll layer 2 and snipe layer 3, and ongoing movement can refresh its timeout.
-A follow-up should jointly design the mouse layer and mode precedence (or migrate
-to official input processors). The existing 750 ms sensor automouse timeout and
-all sleep/idle settings are retained. Build success cannot establish that this
-pre-existing feature works.
+## Automatic mouse layer correction
+
+The reviewed upgrade at `cd9a677` retained the backup's invalid
+`automouse-layer = <4>` with only four layers. Both old and official ZMK reject
+that activation with `-EINVAL`, which the driver ignores. This was not a
+trackball movement disable, but automatic layer switching could not work.
+
+The correction uses official ZMK v0.3.0's `zip_temp_layer` input processor on
+the PMW3610 listener. Real movement events in base/automatic mode activate the
+transparent layer 1 and refresh its **750 ms** timeout. The official processor
+expires it through work queues, in thread context. Bluetooth, scrolling and
+snipe layers bypass the processor, preserving their motion processing and
+preventing those events from refreshing the automatic layer. An already-active
+automatic layer can expire underneath a manual layer without changing its keys
+or trackball mode. Processing continues to the normal HID listener.
+
+Omitting the driver's optional `automouse-layer` property selects its binding
+default of -1, compiling out the legacy automatic-layer timer. This avoids layer
+notifications from its interrupt-context timer, which would reach mutex-taking
+display listeners. There are **no PMW3610 driver source changes**, replacements,
+or CPI/scroll/snipe algorithm changes. The existing driver Kconfig timeout is
+retained at 750, but the active timeout is now the listener's 750 ms parameter.
+
+Layer 1 inherits all key and encoder bindings. There are no new mouse shortcuts,
+click mappings, scrolling triggers or precision mappings: with this keymap the
+practical benefit is correct, safe automatic layer state (and possible display
+feedback), not faster pointer operation or improved Bluetooth connectivity.
+Future bindings on this layer would be a separate mapping change.
+
+Risks to test physically include layer-number/UI expectations, timing on rapid
+motion/manual-layer transitions, motion during held keys, and encoder fallthrough.
+The official processor schedules changes asynchronously; 750 ms is the configured
+idle timeout, not a hard real-time deadline under CPU load. No key-press
+cancellation or typing suppression is newly configured.
+
+Regression checks: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v`.
+They compare mappings and unrelated settings with `cd9a677` in Git history and
+check mode precedence for every manual-layer combination with auto on/off.
 
 ## Validation and review boundary
 
